@@ -5,6 +5,7 @@
 #include <time.h>
 using std::cout;
 
+
 int main() {
 
 	// sf::Sound needs a sf::SoundBuffer, while sf::Music doesn't
@@ -43,7 +44,7 @@ int main() {
 	sBird.setPosition(50, 50);
 	sBird.setScale(1.5, 1.5);
 
-	int score = 240;
+	int score = 0;
 	float y = 200, scroll = 0, scrollPipe = 0.5;
 	bool stopFalling = true, playing = false, flapUp = false;
 	sf::Clock flapClock;
@@ -176,12 +177,13 @@ int main() {
 				window.draw(startBox);
 				window.draw(start);
 			}
-			int tempScore = score;
+			int tempScore = score, j = 0;
 			while (tempScore /= 10) {
 				int num = tempScore % 10;
 				cout << num;
-				numbers[num].setPosition(window.getSize().x - 50, 20);
+				numbers[num].setPosition(window.getSize().x - 50 - (j*50), 20);
 				window.draw(numbers[num]);
+				j++;
 			}
 
 			window.display();
