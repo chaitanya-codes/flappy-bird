@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <list>
 #include <time.h>
+#include <vector>
 using std::cout;
 
 
@@ -53,6 +54,7 @@ int main() {
 	pipe.loadFromFile("assets\\game\\pipe-green.png");
 	sf::Sprite sPipe(pipe);
 	std::list<sf::Sprite> pipes;
+	std::list<sf::Sprite> displayNumbers;
 	int numPipes = 0;
 	/*sf::SoundBuffer buffer;
 	buffer.loadFromFile("scott-buckley-moonlight.mp3");
@@ -75,11 +77,12 @@ int main() {
 	rect.setPosition(0, 0);
 	music.play();
 
-	sf::Texture n;
-	sf::Sprite numbers[10];
+	std::vector<sf::Sprite> numbers(10);
 	for (int i = 0; i < 10; i++) {
-		n.loadFromFile("assets\\UI\\Numbers\\" + std::to_string(i) + ".png");
-		numbers[i] = sf::Sprite(n);
+		sf::Texture *n = new sf::Texture;
+		cout << "Loaded assets\\UI\\Numbers\\" + std::to_string(i) + ".png" << std::endl;
+		n->loadFromFile("assets\\UI\\Numbers\\" + std::to_string(i) + ".png");
+		numbers[i] = sf::Sprite(*n);
 	}
 
 	sf::Clock clock;
@@ -103,8 +106,7 @@ int main() {
 						stopFalling = false;
 						numPipes = 0;
 						pipes.clear();
-					}
-					else if (!stopFalling && !flapUp) {
+					} else if (!stopFalling && !flapUp) {
 						stopFalling = true;
 						sBird.setTexture(birdFlapUp);
 						sBird.setRotation(-5);
@@ -140,6 +142,15 @@ int main() {
 						point.play();
 						pipe = pipes.erase(pipe);
 						numPipes--;
+						displayNumbers.clear();
+						int tempScore = score, j = 0;
+						while (tempScore > 0) {
+							int num = tempScore % 10;
+							numbers[num].setPosition(window.getSize().x - 50 - (j * 50), 20);
+							displayNumbers.push_back(numbers[num]);
+							j++;
+							tempScore /= 10;
+						}
 					} else {
 						pipe->setPosition(pos.x - scrollPipe, pos.y);
 						window.draw(*pipe);
@@ -151,6 +162,7 @@ int main() {
 						window.draw(downPipe);
 						if (pipe->getGlobalBounds().intersects(sBird.getGlobalBounds()) || downPipe.getGlobalBounds().intersects(sBird.getGlobalBounds())) {
 							score = 0;
+							displayNumbers.clear();
 							playing = false;
 						}
 						++pipe;
@@ -173,17 +185,15 @@ int main() {
 						sBird.setRotation(5);
 					}
 				}
+				int i = 0;
+				for (auto number : displayNumbers) {
+					number.setPosition(350 - i*20, 20);
+					window.draw(number);
+					i += 1;
+				}
 			} else {
 				window.draw(startBox);
 				window.draw(start);
-			}
-			int tempScore = score, j = 0;
-			while (tempScore /= 10) {
-				int num = tempScore % 10;
-				cout << num;
-				numbers[num].setPosition(window.getSize().x - 50 - (j*50), 20);
-				window.draw(numbers[num]);
-				j++;
 			}
 
 			window.display();
