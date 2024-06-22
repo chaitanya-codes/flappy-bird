@@ -12,21 +12,16 @@ C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(130,68): warnin
 C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(130,68): warning C4244:             T=int
 C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(130,68): warning C4244:         ]
 C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(131,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(147,57): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(147,57): warning C4244:         with
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(147,57): warning C4244:         [
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(147,57): warning C4244:             T=unsigned int
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(147,57): warning C4244:         ]
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(156,17): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(156,17): warning C4244:         with
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(156,17): warning C4244:         [
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(156,17): warning C4244:             T=float
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(156,17): warning C4244:         ]
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(157,18): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(157,18): warning C4244:         with
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(157,18): warning C4244:         [
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(157,18): warning C4244:             T=float
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(157,18): warning C4244:         ]
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(160,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(191,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(154,17): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(154,17): warning C4244:         with
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(154,17): warning C4244:         [
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(154,17): warning C4244:             T=float
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(154,17): warning C4244:         ]
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(155,18): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(155,18): warning C4244:         with
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(155,18): warning C4244:         [
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(155,18): warning C4244:             T=float
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(155,18): warning C4244:         ]
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(158,56): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\excee\source\repos\flappy-bird\flappy-bird\src\main.cpp(190,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   flappy-bird.vcxproj -> C:\Users\excee\source\repos\flappy-bird\x64\Debug\flappy-bird.exe

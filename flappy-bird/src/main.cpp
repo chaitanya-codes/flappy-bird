@@ -141,12 +141,10 @@ int main() {
 						pipe = pipes.erase(pipe); // Set pipe iterator to next pipe
 						numPipes--;
 						displayNumbers.clear();
-						int tempScore = score, j = 0;
+						int tempScore = score;
 						while (tempScore > 0) {
 							int num = tempScore % 10;
-							numbers[num].setPosition(window.getSize().x - 50 - (j * 50), 20);
-							displayNumbers.push_back(numbers[num]); // Shift digits for ten's place
-							j++;
+							displayNumbers.push_back(numbers[num]);
 							tempScore /= 10;
 						}
 					} else {
@@ -186,11 +184,12 @@ int main() {
 						sBird.setRotation(5);
 					}
 				}
-				int i = 0;
+				int i = 0;				
+
 				for (auto number : displayNumbers) {
-					number.setPosition(350 - i*20, 20);
+					number.setPosition(350 - i*20, 20); // Shift digits in ten's place
 					window.draw(number);
-					i += 1;
+					i++;
 				}
 			} else {
 				window.draw(startBox);
