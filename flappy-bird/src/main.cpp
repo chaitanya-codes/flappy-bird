@@ -1,11 +1,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <vector>
 #include <list>
 #include <time.h>
-#include <vector>
 using std::cout;
-
 
 int main() {
 
@@ -23,7 +22,7 @@ int main() {
 	start.setFont(font);
 
 	sf::RectangleShape startBox(sf::Vector2f(205, 30));
-	startBox.setFillColor(sf::Color(160,3,160));
+	startBox.setFillColor(sf::Color(160, 3, 160));
 	startBox.setPosition(90, 150);
 
 	srand(time(0));
@@ -123,31 +122,30 @@ int main() {
 			window.draw(sBase);
 		}
 
-		if (numPipes < 4) {
-			int randHeight = rand() % 50 + 130;
-			sPipe.setTextureRect(sf::IntRect(0,0,sPipe.getGlobalBounds().width, randHeight));
-			sPipe.setPosition(400+numPipes*300, randHeight);
-			sPipe.setRotation(180);
-			pipes.push_back(sPipe);
-			numPipes++;
-		}
-
 		timer = clock.getElapsedTime().asMilliseconds();
 		if (timer > (1/30)) {
 			if (playing) {
+				if (numPipes < 4) {
+					int randHeight = ((rand() % 10) + 4) * 20;
+					sPipe.setTextureRect(sf::IntRect(0, 0, sPipe.getGlobalBounds().width, randHeight));
+					sPipe.setPosition(400 + numPipes * 300, (window.getSize().y - randHeight) - sBase.getGlobalBounds().height + 12);
+					pipes.push_back(sPipe);
+					numPipes++;
+				}
+
 				for (auto pipe = pipes.begin(); pipe != pipes.end();) {
 					sf::Vector2f pos = pipe->getPosition();
-					if (pos.x < 0) {
+					if (pos.x < 0-sPipe.getGlobalBounds().width) {
 						score++;
 						point.play();
-						pipe = pipes.erase(pipe);
+						pipe = pipes.erase(pipe); // Set pipe iterator to next pipe
 						numPipes--;
 						displayNumbers.clear();
 						int tempScore = score, j = 0;
 						while (tempScore > 0) {
 							int num = tempScore % 10;
 							numbers[num].setPosition(window.getSize().x - 50 - (j * 50), 20);
-							displayNumbers.push_back(numbers[num]);
+							displayNumbers.push_back(numbers[num]); // Shift digits for ten's place
 							j++;
 							tempScore /= 10;
 						}
@@ -155,10 +153,11 @@ int main() {
 						pipe->setPosition(pos.x - scrollPipe, pos.y);
 						window.draw(*pipe);
 						sf::Sprite downPipe = (*pipe);
-						downPipe.setRotation(0);
-						int randomHeight = (int)sPipe.getGlobalBounds().height % 30 + 130;
-						downPipe.setTextureRect(sf::IntRect(0, 0, sPipe.getGlobalBounds().width, randomHeight));
-						downPipe.setPosition(pos.x - scrollPipe - downPipe.getGlobalBounds().width, (window.getSize().y - randomHeight) - sBase.getGlobalBounds().height + 12);
+						int width = downPipe.getGlobalBounds().width;
+						int height = (320 - downPipe.getGlobalBounds().height);
+						downPipe.setRotation(180); 
+						downPipe.setTextureRect(sf::IntRect(0, 0, width, height));
+						downPipe.setPosition(pos.x - scrollPipe + width, height);
 						window.draw(downPipe);
 						if (pipe->getGlobalBounds().intersects(sBird.getGlobalBounds()) || downPipe.getGlobalBounds().intersects(sBird.getGlobalBounds())) {
 							score = 0;
@@ -170,10 +169,12 @@ int main() {
 				}
 				sBird.setPosition(50, y);
 				window.draw(sBird);
+
+				scroll += 0.5;
+				if (scroll > 50) scroll = 0;
+
 				if (!stopFalling) {
 					y += 0.5;
-					scroll++;
-					if (scroll > 50) scroll = 0;
 					if (y > 420) stopFalling = true;
 				}
 				if (flapUp) {
