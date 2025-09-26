@@ -19,16 +19,15 @@ A simple Flappy Bird clone built with C++ and SFML.
 4. Double-click `flappy-bird.exe` to play.
 
 > Example folder structure after extraction:
+```text
 flappy-bird/
-│
 ├─ flappy-bird.exe
 ├─ assets/
-│ ├─ fonts/
-│ ├─ game/
-│ ├─ sound/
-│ └─ UI/
-
----
+│   ├─ fonts/
+│   ├─ game/
+│   ├─ sound/
+│   └─ UI/
+```
 
 ## 🎵 Assets
 
