@@ -1,0 +1,13 @@
+.vs/
+*.vcxproj.user
+*.vsidx
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+x64/
+x86/
+Debug/
+Release/
+*.dll
+*.exe
