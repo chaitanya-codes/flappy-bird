@@ -13,7 +13,7 @@ int main() {
 	sf::Event event;
 
 	sf::Font font;
-	font.loadFromFile("C:\\Development\\Fonts\\Poppins\\Poppins-Bold.ttf");
+	font.loadFromFile("assets/fonts/Poppins-Bold.ttf");
 	sf::Text start;
 	start.setString("Space to start");
 	start.setFillColor(sf::Color(0, 255, 150));
@@ -28,29 +28,29 @@ int main() {
 	srand(time(0));
 
 	sf::Texture background, base;
-	background.loadFromFile("assets\\game\\background-day.png");
+	background.loadFromFile("assets/game/background-day.png");
 	sf::Sprite sBackground(background);
 	sBackground.setScale(1.4, 1.1);
 
-	base.loadFromFile("assets\\game\\base.png");
+	base.loadFromFile("assets/game/base.png");
 	sf::Sprite sBase(base);
 
 	sf::Texture bird, birdFlapUp, birdFlapDown;
-	bird.loadFromFile("assets\\game\\yellowbird-midflap.png");
-	birdFlapUp.loadFromFile("assets\\game\\yellowbird-upflap.png");
-	birdFlapDown.loadFromFile("assets\\game\\yellowbird-downflap.png");
+	bird.loadFromFile("assets/game/yellowbird-midflap.png");
+	birdFlapUp.loadFromFile("assets/game/yellowbird-upflap.png");
+	birdFlapDown.loadFromFile("assets/game/yellowbird-downflap.png");
 
 	sf::Sprite sBird(bird);
 	sBird.setPosition(50, 50);
 	sBird.setScale(1.5, 1.5);
 
 	int score = 0;
-	float y = 200, scroll = 0, scrollPipe = 0.5;
+	float y = 200, scroll = 0, scrollPipe = 0.4;
 	bool stopFalling = true, playing = false, flapUp = false;
 	sf::Clock flapClock;
 
 	sf::Texture pipe;
-	pipe.loadFromFile("assets\\game\\pipe-green.png");
+	pipe.loadFromFile("assets/game/pipe-green.png");
 	sf::Sprite sPipe(pipe);
 	std::list<sf::Sprite> pipes;
 	std::list<sf::Sprite> displayNumbers;
@@ -67,7 +67,7 @@ int main() {
 	}
 
 	sf::SoundBuffer pt;
-	pt.loadFromFile("assets\\sound\\point.wav");
+	pt.loadFromFile("assets/sound/point.wav");
 	sf::Sound point(pt);
 	point.setVolume(50);
 
@@ -77,11 +77,11 @@ int main() {
 	music.play();
 
 	std::vector<sf::Sprite> numbers(10);
+	std::vector<sf::Texture> numTextures(10);
 	for (int i = 0; i < 10; i++) {
-		sf::Texture *n = new sf::Texture;
 		cout << "Loaded assets\\UI\\Numbers\\" + std::to_string(i) + ".png" << std::endl;
-		n->loadFromFile("assets\\UI\\Numbers\\" + std::to_string(i) + ".png");
-		numbers[i] = sf::Sprite(*n);
+		numTextures[i].loadFromFile("assets\\UI\\Numbers\\" + std::to_string(i) + ".png");
+		numbers[i].setTexture(numTextures[i]);
 	}
 
 	sf::Clock clock;
@@ -123,14 +123,24 @@ int main() {
 		}
 
 		timer = clock.getElapsedTime().asMilliseconds();
-		if (timer > (1/30)) {
+		if (timer > (1.0/30)) {
 			if (playing) {
 				if (numPipes < 4) {
 					int randHeight = ((rand() % 10) + 4) * 20;
 					sPipe.setTextureRect(sf::IntRect(0, 0, sPipe.getGlobalBounds().width, randHeight));
-					sPipe.setPosition(400 + numPipes * 300, (window.getSize().y - randHeight) - sBase.getGlobalBounds().height + 12);
+					sPipe.setPosition(400 + numPipes * 400, (window.getSize().y - randHeight) - sBase.getGlobalBounds().height + 12);
 					pipes.push_back(sPipe);
 					numPipes++;
+
+					sf::Sprite downPipe(sPipe);
+					int width = downPipe.getGlobalBounds().width;
+					int randHeight2 = (60 * (int)((rand() % 2) + 1));
+					int height = 300 - (int)downPipe.getGlobalBounds().height;
+					height = std::vector<int>{ height, randHeight2 <= height ? randHeight2 : height }[rand() % 2];
+					downPipe.setRotation(180);
+					downPipe.setTextureRect(sf::IntRect(0, 0, width, height));
+					downPipe.setPosition(sPipe.getPosition().x - scrollPipe + width, height);
+					pipes.push_back(downPipe);
 				}
 
 				for (auto pipe = pipes.begin(); pipe != pipes.end();) {
@@ -139,6 +149,7 @@ int main() {
 						score++;
 						point.play();
 						pipe = pipes.erase(pipe); // Set pipe iterator to next pipe
+						pipe = pipes.erase(pipe);
 						numPipes--;
 						displayNumbers.clear();
 						int tempScore = score;
@@ -148,16 +159,10 @@ int main() {
 							tempScore /= 10;
 						}
 					} else {
-						pipe->setPosition(pos.x - scrollPipe, pos.y);
+						pipe->setPosition((pos.x - scrollPipe) * 1, pos.y);
 						window.draw(*pipe);
-						sf::Sprite downPipe = (*pipe);
-						int width = downPipe.getGlobalBounds().width;
-						int height = (320 - downPipe.getGlobalBounds().height);
-						downPipe.setRotation(180); 
-						downPipe.setTextureRect(sf::IntRect(0, 0, width, height));
-						downPipe.setPosition(pos.x - scrollPipe + width, height);
-						window.draw(downPipe);
-						if (pipe->getGlobalBounds().intersects(sBird.getGlobalBounds()) || downPipe.getGlobalBounds().intersects(sBird.getGlobalBounds())) {
+						
+						if (pipe->getGlobalBounds().intersects(sBird.getGlobalBounds())) {
 							score = 0;
 							displayNumbers.clear();
 							playing = false;
@@ -168,15 +173,15 @@ int main() {
 				sBird.setPosition(50, y);
 				window.draw(sBird);
 
-				scroll += 0.5;
-				if (scroll > 50) scroll = 0;
+				scroll += 0.4;
+				if (scroll > base.getSize().x / 2) scroll = 0;
 
 				if (!stopFalling) {
-					y += 0.5;
+					y += 0.3;
 					if (y > 420) stopFalling = true;
 				}
 				if (flapUp) {
-					y -= 0.5;
+					y -= 0.4;
 					if (flapClock.getElapsedTime().asSeconds() > 0.35) {
 						flapUp = false;
 						stopFalling = false;
@@ -184,7 +189,7 @@ int main() {
 						sBird.setRotation(5);
 					}
 				}
-				int i = 0;				
+				int i = 0;
 
 				for (auto number : displayNumbers) {
 					number.setPosition(350 - i*20, 20); // Shift digits in ten's place

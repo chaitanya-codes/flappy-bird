@@ -1,1 +1,2 @@
 C:\Users\excee\source\repos\flappy-bird\flappy-bird\x64\Debug\flappy-bird.exe
+C:\Users\excee\source\repos\projects\flappy-bird\flappy-bird\x64\Debug\flappy-bird.exe
