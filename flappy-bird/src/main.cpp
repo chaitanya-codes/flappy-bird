@@ -79,8 +79,8 @@ int main() {
 	std::vector<sf::Sprite> numbers(10);
 	std::vector<sf::Texture> numTextures(10);
 	for (int i = 0; i < 10; i++) {
-		cout << "Loaded assets\\UI\\Numbers\\" + std::to_string(i) + ".png" << std::endl;
-		numTextures[i].loadFromFile("assets\\UI\\Numbers\\" + std::to_string(i) + ".png");
+		cout << "Loaded assets/UI/Numbers/" + std::to_string(i) + ".png" << std::endl;
+		numTextures[i].loadFromFile("assets/UI/Numbers/" + std::to_string(i) + ".png");
 		numbers[i].setTexture(numTextures[i]);
 	}
 
