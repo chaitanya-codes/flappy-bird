@@ -27,13 +27,17 @@ int main() {
 
 	srand(time(0));
 
-	sf::Texture background, base;
+	sf::Texture background, base, gameOver;
 	background.loadFromFile("assets/game/background-day.png");
 	sf::Sprite sBackground(background);
 	sBackground.setScale(1.4, 1.1);
 
 	base.loadFromFile("assets/game/base.png");
 	sf::Sprite sBase(base);
+
+	gameOver.loadFromFile("assets/UI/gameover.png");
+	sf::Sprite sGameOver(gameOver);
+	sGameOver.setPosition(window.getSize().x / 2 - 100, window.getSize().y / 2 - 50);
 
 	sf::Texture bird, birdFlapUp, birdFlapDown;
 	bird.loadFromFile("assets/game/yellowbird-midflap.png");
@@ -46,7 +50,7 @@ int main() {
 
 	int score = 0;
 	float y = 200, scroll = 0, scrollPipe = 0.4;
-	bool stopFalling = true, playing = false, flapUp = false;
+	bool stopFalling = true, playing = false, flapUp = false, lost = false;
 	sf::Clock flapClock;
 
 	sf::Texture pipe;
@@ -66,10 +70,12 @@ int main() {
 		std::cout << "Error";
 	}
 
-	sf::SoundBuffer pt;
-	pt.loadFromFile("assets/sound/point.wav");
-	sf::Sound point(pt);
+	sf::SoundBuffer pointBuffer, wingBuffer;
+	pointBuffer.loadFromFile("assets/sound/point.wav");
+	wingBuffer.loadFromFile("assets/sound/wing.wav");
+	sf::Sound point(pointBuffer), wing(wingBuffer);
 	point.setVolume(50);
+	wing.setVolume(50);
 
 	sf::RectangleShape rect(sf::Vector2f(200, 400));
 	rect.setFillColor(sf::Color::Blue);
@@ -106,6 +112,7 @@ int main() {
 						numPipes = 0;
 						pipes.clear();
 					} else if (!stopFalling && !flapUp) {
+						wing.play();
 						stopFalling = true;
 						sBird.setTexture(birdFlapUp);
 						sBird.setRotation(-5);
@@ -166,6 +173,7 @@ int main() {
 							score = 0;
 							displayNumbers.clear();
 							playing = false;
+							lost = true;
 						}
 						++pipe;
 					}
@@ -199,6 +207,7 @@ int main() {
 			} else {
 				window.draw(startBox);
 				window.draw(start);
+				if (lost) window.draw(sGameOver);
 			}
 
 			window.display();
